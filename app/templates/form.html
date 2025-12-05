@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} Record{% endblock %}
+
+{% block content %}
+<h1>{{ action }} Record</h1>
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    
+    <div>
+        {{ form.title.label }}<br>
+        {{ form.title(size=50) }}<br>
+        {% if form.title.errors %}
+            <ul class="errors">
+            {% for error in form.title.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    
+    <div>
+        {{ form.content.label }}<br>
+        {{ form.content(rows=10, cols=50) }}<br>
+        {% if form.content.errors %}
+            <ul class="errors">
+            {% for error in form.content.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    
+    <div>
+        {{ form.submit() }}
+        {% if record_id %}
+            <a href="{{ url_for('main.view_record', id=record_id) }}" style="margin-left: 10px;">Cancel</a>
+        {% else %}
+            <a href="{{ url_for('main.list_records') }}" style="margin-left: 10px;">Cancel</a>
+        {% endif %}
+    </div>
+</form>
+{% endblock %}

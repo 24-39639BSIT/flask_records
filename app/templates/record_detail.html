@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Record Details{% endblock %}
+
+{% block content %}
+<h1>{{ record.title }}</h1>
+
+<p><strong>Created:</strong> {{ record.created_at.strftime('%Y-%m-%d %H:%M') if record.created_at else 'Unknown' }}</p>
+
+{% if record.content %}
+    <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        {{ record.content | replace('\n', '<br>') | safe }}
+    </div>
+{% else %}
+    <p><em>No content provided.</em></p>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('main.edit_record', id=record.id) }}">Edit</a> | 
+    <form action="{{ url_for('main.delete_record', id=record.id) }}" method="POST" style="display: inline;">
+        <button type="submit" onclick="return confirm('Are you sure you want to delete this record?')" 
+                style="background: none; border: none; color: #007bff; cursor: pointer; padding: 0; font: inherit;">
+            Delete
+        </button>
+    </form> | 
+    <a href="{{ url_for('main.list_records') }}">Back to records</a>
+</div>
+{% endblock %}
